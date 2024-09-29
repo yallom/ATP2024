@@ -14,15 +14,17 @@ import random
 def jogo2():
     N = 21
     t = 0
+    Winner = False
     while N > 0:
         if N == 21:
             B = random.randint(1,4)
             N -= B
             t += 1
-        elif N % 5 != 1 and t == 2:
+        elif N % 5 != 1 and Winner == False:
             B = (5-X-B)
             N -= B
             t += 1
+            Winner = True
         elif N % 5 != 1:
             B = (5-X)
             N -= B
@@ -34,7 +36,8 @@ def jogo2():
         
         if N > 0:
             X = int(input(f"""O computador retira {B}!
-            Sobram {N}"""))
+            Sobram {N}
+            Quantos retiras?"""))
             N -= X
             t += 1
             print(f"""Retiraste {X} fósforos! 
@@ -53,7 +56,7 @@ Quem apanhar o último fósforo perde!
 Podes tirar entre 1 e 4 fósforos!
 
 Queres jogar primeiro? (s/n)""")
-resposta = input("Queres jogar primeiro? (s/n)")
+resposta = input()
 if resposta == "s":
     print("Ok! Escolhe um número de 1 a 4")
     A = int(input())
