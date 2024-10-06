@@ -4,10 +4,17 @@ def jogo1(A):
         N -= A
         print(f"""Retiraste {A} fósforos! 
         Sobram {N}!""")
-        N -= (5-A)
-        A = int(input(f"""O computador retira {5-A}!
-        Sobram {N}"""))
-    return ("Perdeste")
+        if N == 0:
+            return ("Perdeste")
+        else:
+            N -= (5-A)
+            print(f"""O computador retira {5-A}!
+            Sobram {N}!""")
+            
+            A = int(input("""Quantos tiras?
+    """))
+        
+
 
 import random
 
@@ -16,12 +23,15 @@ def jogo2():
     t = 0
     Winner = False
     while N > 0:
-        if N == 21:
+        if t == 0:
             B = random.randint(1,4)
             N -= B
             t += 1
         elif N % 5 != 1 and Winner == False:
-            B = (5-X-B)
+            if X + B > 5:
+                B = (10-X-B)
+            else:
+                B = (5-X-B)
             N -= B
             t += 1
             Winner = True
@@ -37,7 +47,8 @@ def jogo2():
         if N > 0:
             X = int(input(f"""O computador retira {B}!
             Sobram {N}
-            Quantos retiras?"""))
+            Quantos retiras?
+"""))
             N -= X
             t += 1
             print(f"""Retiraste {X} fósforos! 
