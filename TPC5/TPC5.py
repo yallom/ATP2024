@@ -127,6 +127,7 @@ Escolha um modo de utilização!
         lugares = input("Escolha o número de lugares da sala!")
         vendidos = input("Escolha os lugares cujos bilhetes já foram vendidos!")
         print (CriarSala(sala,filme,lugares,vendidos))
+        
     elif resposta == "0":
         print ("Ok, adeus!")
         Logout = True
