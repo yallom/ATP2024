@@ -123,7 +123,7 @@ O que quer fazer?
 6) Ver precipitação máxima
 7) Ver dias com precipitação acima de um valor
 8) Ver dias com precipitação abaixo de um valor
-9) Construi gráficos de temperatura e precipitação
+9) Construir gráficos de temperatura e precipitação
 0) Sair""")
 
     escolha = input("Escolha uma opção!")
