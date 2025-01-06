@@ -1567,7 +1567,7 @@ def init():
     return window
 
 def main():
-    init_window = init()
+    """init_window = init()
     loop_main = True
 
     while loop_main:
@@ -1582,7 +1582,16 @@ def main():
         elif event == 'Command Line Interface':
             init_window.close()
             CLI()
-            loop_main = False
+            loop_main = False"""
+    res = input('''Como deseja iniciar a aplicação?
+      [1]Interface Gráfica
+      [2]Linha de Comandos''')
+    if res == '1':
+        Visual()
+    elif res == '2':
+        CLI()
+    else:
+        return('Comando {res} não reconhecido')
 
 if __name__ == "__main__":
     main()
