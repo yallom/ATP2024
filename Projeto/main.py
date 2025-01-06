@@ -711,11 +711,18 @@ class SistemaPubs:
                     
                 layout_results = [[sg.Text('Publicações Encontradas:', font=('Helvetica', 12, 'bold'))]]
                 for pub in resultados:
-                    title_text = f"Título: {pub['title']}\nAutores: {', '.join(a['name'] for a in pub['authors'])}"
-                    layout_results.append([
+                    if len(pub['authors']) == 1:
+                       title_text = f"Título: {pub['title']}\nAutores: {', '.join(pub['authors'][0]['name'])}"
+                        layout_results.append([
                         sg.Multiline(title_text, size=(50, 2), disabled=True),
                         sg.Button('Eliminar', key=f"DEL_{pub['title']}",button_color=('white', '#2B5B84'))
-                    ])
+                    ]) 
+                    elif len(pub['authors']>1:
+                        title_text = f"Título: {pub['title']}\nAutores: {', '.join(a['name'] for a in pub['authors'])}"
+                        layout_results.append([
+                            sg.Multiline(title_text, size=(50, 2), disabled=True),
+                            sg.Button('Eliminar', key=f"DEL_{pub['title']}",button_color=('white', '#2B5B84'))
+                        ])
                 layout_results.append([sg.Button('Fechar',button_color=('white', '#2B5B84'))])
                 
                 scrollable_layout = [[sg.Column(layout_results, scrollable=True, vertical_scroll_only=True, size=(600, 400))]]
@@ -1319,8 +1326,10 @@ def Visual():
                 if evento_pesq == 'Pesquisar':
                     # Realiza a pesquisa
                     resultados = sistema.pesquisar_publicacoes(valores_pesq['criterio'], valores_pesq['valor'])
-
-                    if resultados:
+                    if not resultados:
+                        sg.popup('Artigo não encontrado!')
+                        
+                    elif resultados:
                         # Exibe os resultados
                         layout_resultados = [
                             [sg.Text('Resultados da Pesquisa:')],
