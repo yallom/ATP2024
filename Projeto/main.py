@@ -711,18 +711,11 @@ class SistemaPubs:
                     
                 layout_results = [[sg.Text('Publicações Encontradas:', font=('Helvetica', 12, 'bold'))]]
                 for pub in resultados:
-                    if len(pub['authors']) == 1:
-                       title_text = f"Título: {pub['title']}\nAutores: {', '.join(pub['authors'][0]['name'])}"
-                        layout_results.append([
+                    title_text = f"Título: {pub['title']}\nAutores: {', '.join(a['name'] for a in pub['authors'])}"
+                    layout_results.append([
                         sg.Multiline(title_text, size=(50, 2), disabled=True),
                         sg.Button('Eliminar', key=f"DEL_{pub['title']}",button_color=('white', '#2B5B84'))
-                    ]) 
-                    elif len(pub['authors']>1:
-                        title_text = f"Título: {pub['title']}\nAutores: {', '.join(a['name'] for a in pub['authors'])}"
-                        layout_results.append([
-                            sg.Multiline(title_text, size=(50, 2), disabled=True),
-                            sg.Button('Eliminar', key=f"DEL_{pub['title']}",button_color=('white', '#2B5B84'))
-                        ])
+                    ])
                 layout_results.append([sg.Button('Fechar',button_color=('white', '#2B5B84'))])
                 
                 scrollable_layout = [[sg.Column(layout_results, scrollable=True, vertical_scroll_only=True, size=(600, 400))]]
@@ -737,11 +730,11 @@ class SistemaPubs:
                 loop = True
                 while loop:
                     event_res, _ = window_results.read()
-                    if event_res in (sg.WIN_CLOSED, 'Fechar'):
+                    if event_res is None or event_res in (sg.WIN_CLOSED, 'Fechar'):
                         window_results.close()
                         loop = False
                         
-                    if event_res.startswith('DEL_'):
+                    elif event_res.startswith('DEL_'):
                         title = event_res[4:]
                         if sg.popup_yes_no('Tem certeza que deseja eliminar esta publicação?') == 'Yes':
                             if self.eliminar_publicacao(title):
@@ -1326,10 +1319,11 @@ def Visual():
                 if evento_pesq == 'Pesquisar':
                     # Realiza a pesquisa
                     resultados = sistema.pesquisar_publicacoes(valores_pesq['criterio'], valores_pesq['valor'])
+
                     if not resultados:
                         sg.popup('Artigo não encontrado!')
-                        
-                    elif resultados:
+    
+                    if resultados:
                         # Exibe os resultados
                         layout_resultados = [
                             [sg.Text('Resultados da Pesquisa:')],
